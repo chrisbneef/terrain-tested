@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import Strip from '../components/Strip.astro';
+import { site } from '../site.config.mjs';
+---
+
+<Base title={`Page not found | ${site.shortName}`} description="That page is not on this map.">
+  <Strip
+    title="Off the edge of the map."
+    intro="That page does not exist or has moved."
+  />
+  <section class="section">
+    <div class="wrap prose">
+      <p>Try one of these instead:</p>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/applications/">Applications</a></li>
+        <li><a href="/field-notes/">Field notes on oil</a></li>
+        <li><a href="/contact/">Contact the dealer</a></li>
+      </ul>
+    </div>
+  </section>
+</Base>

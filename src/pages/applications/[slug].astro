@@ -1,0 +1,94 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Strip from '../../components/Strip.astro';
+import Close from '../../components/Close.astro';
+import { applications } from '../../data/applications.mjs';
+import { site, baseUrl } from '../../site.config.mjs';
+
+export function getStaticPaths() {
+  return applications.map((app) => ({ params: { slug: app.slug }, props: { app } }));
+}
+
+const { app } = Astro.props;
+const notes = await getCollection('notes');
+const noteTitle = (id: string) => notes.find((note) => note.id === id)?.data.title;
+const url = `${baseUrl}/applications/${app.slug}/`;
+
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': `${url}#service`,
+    name: `${app.name} lubricant recommendations`,
+    serviceType: 'Lubricant selection and product guidance',
+    description: app.description,
+    provider: { '@id': `${baseUrl}/#business` },
+    areaServed: { '@type': 'City', name: `${site.city}, ${site.regionName}` },
+    url,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${baseUrl}/` },
+      { '@type': 'ListItem', position: 2, name: 'Applications', item: `${baseUrl}/applications/` },
+      { '@type': 'ListItem', position: 3, name: app.name, item: url },
+    ],
+  },
+];
+---
+
+<Base title={`${app.title} | ${site.shortName}`} description={app.description} schema={schema}>
+  <Strip
+    title={app.title}
+    intro={app.lede}
+    crumbs={[
+      { href: '/applications/', label: 'Applications' },
+      { href: `/applications/${app.slug}/`, label: app.name },
+    ]}
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div>
+        <h2>What this work does to oil</h2>
+        <p class="lead">{app.summary}</p>
+        <p class="collar" style="color:var(--contour-ink)">{app.machines}</p>
+      </div>
+      <dl class="conditions">
+        {
+          app.conditions.map((item) => (
+            <div>
+              <dt>{item.term}</dt>
+              <dd>{item.detail}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section section--woodland">
+    <div class="wrap">
+      <h2>Questions I hear about {app.name.toLowerCase()}</h2>
+      <div class="questions">
+        {
+          app.questions.map((item) => (
+            <div>
+              <h3>{item.q}</h3>
+              <p>{item.a}</p>
+              {item.note && noteTitle(item.note) && (
+                <p>
+                  <a class="more" href={`/field-notes/${item.note}/`}>
+                    {noteTitle(item.note)}
+                  </a>
+                </p>
+              )}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Close />
+</Base>

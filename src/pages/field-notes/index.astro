@@ -1,0 +1,49 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Strip from '../../components/Strip.astro';
+import Close from '../../components/Close.astro';
+import { site } from '../../site.config.mjs';
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+---
+
+<Base
+  title={`Field Notes: oil education from a working mechanic | ${site.shortName}`}
+  description={`Plain-language answers about synthetic oil, viscosity, drain intervals and oil analysis from an independent AMSOIL Dealer in ${site.city}, ${site.regionName}.`}
+>
+  <Strip
+    title="Field notes on oil."
+    intro="Plain answers to the questions operators, riders and shop owners ask most. Each one starts with the short answer."
+    crumbs={[{ href: '/field-notes/', label: 'Field Notes' }]}
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="notes" style="margin-top:0">
+        {
+          notes.map((note) => (
+            <li>
+              <h2 style="font-size:clamp(1.3rem,2.6vw,1.75rem)">
+                <a href={`/field-notes/${note.id}/`} style="color:inherit;text-decoration:none">
+                  {note.data.title}
+                </a>
+              </h2>
+              <p>
+                {note.data.answer}
+                <span class="collar">For: {note.data.applies.join(', ')}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Close
+    heading="Have a question that isn’t here?"
+    body="Ask it. The questions people send are where the next field notes come from."
+  />
+</Base>

@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import Strip from '../../components/Strip.astro';
+import Close from '../../components/Close.astro';
+import { applications } from '../../data/applications.mjs';
+import { site } from '../../site.config.mjs';
+---
+
+<Base
+  title={`Applications: powersports, heavy equipment, small engines | ${site.shortName}`}
+  description={`The machines ${site.name} helps with in ${site.city}, ${site.regionName}: powersports, heavy construction equipment and small engines.`}
+>
+  <Strip
+    title="What do you run?"
+    intro="Every kind of machine is hard on oil in its own way. Start with the one closest to yours."
+    crumbs={[{ href: '/applications/', label: 'Applications' }]}
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="legend" style="margin-top:0">
+        {
+          applications.map((app) => (
+            <li>
+              <a href={`/applications/${app.slug}/`}>
+                <h2>{app.name}</h2>
+                <p>
+                  {app.summary}
+                  <span class="machines">{app.machines}</span>
+                </p>
+                <span class="go">See {app.name.toLowerCase()}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Close
+    heading="Don’t see your machine?"
+    body="Marine engines, diesel pickups, generators, compressors, gearboxes: if it has oil in it, ask. If I do not know the answer, I will say so and find out."
+  />
+</Base>

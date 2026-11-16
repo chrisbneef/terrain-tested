@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.astro/
+.impeccable/
+iCloud-shared files/
+terrain-tested-synthetic-lubricants.csv

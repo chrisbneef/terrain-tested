@@ -1,0 +1,105 @@
+---
+import Base from '../layouts/Base.astro';
+import Strip from '../components/Strip.astro';
+import Close from '../components/Close.astro';
+import { site, baseUrl } from '../site.config.mjs';
+
+const schema = [
+  {
+    '@type': 'AboutPage',
+    '@id': `${baseUrl}/about/`,
+    url: `${baseUrl}/about/`,
+    name: `About ${site.name}`,
+    about: { '@id': `${baseUrl}/#business` },
+  },
+];
+---
+
+<Base
+  title={`About the dealer | ${site.shortName}, ${site.city}, ${site.regionName}`}
+  description={`Meet the independent AMSOIL Dealer behind ${site.name} in ${site.city}, ${site.regionName}: a heavy equipment operator, mechanic, certified marine engine technician and racer.`}
+  schema={schema}
+>
+  <Strip
+    title="The dealer has done the work."
+    intro={`${site.name} is an independent AMSOIL dealership based in ${site.city}, ${site.regionName}.`}
+    crumbs={[{ href: '/about/', label: 'About' }]}
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <div class="prose">
+        <h2 style="margin-top:0">
+          {site.dealerName ? `${site.dealerName}, independent AMSOIL Dealer` : 'Where I come from'}
+        </h2>
+        <p>
+          I spent more than a decade as a heavy equipment operator, running everything from small
+          powered equipment to large construction machines. I have also worked as a mechanic on
+          most every type of machine out there, which means I have used all kinds of lubricants
+          from both sides: in the seat and under the hood.
+        </p>
+        <p>
+          I am certified in marine engines, and I learned there that performance is not only a
+          racing thing. An outboard pushing a loaded boat works as hard as anything on a track.
+        </p>
+        <p>
+          I am also a racer. I spent years around the off-road and motocross world, and around drag
+          racing and street bikes. I know the people, and I know what matters to someone who has
+          money and reputation riding on a machine.
+        </p>
+
+        <h2>Why I became an AMSOIL Dealer</h2>
+        <p>
+          My experience, my interests and what I am good at all line up with this work. I get real
+          satisfaction from high-quality products, and I know other people do too once they see
+          their machines running better and lasting longer.
+        </p>
+        <p>
+          AMSOIL is recognized as a leader in synthetic lubricants, and the company formulates,
+          blends and packages its lubricants in the United States. That matters to me. I would
+          rather stand behind a product built that way.
+        </p>
+
+        <h2>What you get from an independent dealer</h2>
+        <p>
+          A store shelf cannot ask what you run or how you run it. I can. You get one person who
+          knows your equipment, makes time for your questions, and helps you pick the right product
+          for each machine.
+        </p>
+        <p>
+          I do not post prices or take orders on this site. Pricing and ordering go through AMSOIL,
+          and I can show you the best way to buy for how much you use.
+        </p>
+      </div>
+
+      <dl class="conditions">
+        <div>
+          <dt>Based in</dt>
+          <dd>{site.city}, {site.regionName}</dd>
+        </div>
+        <div>
+          <dt>Heavy equipment</dt>
+          <dd>10+ years as an operator, small powered equipment through large construction machines</dd>
+        </div>
+        <div>
+          <dt>Mechanical</dt>
+          <dd>Repair work across heavy construction, lawn equipment, marine and powersports</dd>
+        </div>
+        <div>
+          <dt>Certification</dt>
+          <dd>Marine engines</dd>
+        </div>
+        <div>
+          <dt>Racing</dt>
+          <dd>Off-road, motocross, drag racing, street bikes</dd>
+        </div>
+        <div>
+          <dt>Dealership</dt>
+          <dd>Independent AMSOIL Dealer, independently owned and operated</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <Close />
+</Base>

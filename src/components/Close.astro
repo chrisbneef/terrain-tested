@@ -1,0 +1,25 @@
+---
+// The closing call to action used at the bottom of most pages.
+import { telHref, site } from '../site.config.mjs';
+
+interface Props {
+  heading?: string;
+  body?: string;
+}
+
+const {
+  heading = 'Tell me what you run.',
+  body = 'Settling for whatever is on the shelf is how good machines wear out early. Tell me the machine and how you work it, and I will tell you what I would put in it and why.',
+} = Astro.props;
+---
+
+<section class="section section--red close">
+  <div class="wrap">
+    <h2>{heading}</h2>
+    <p>{body}</p>
+    <div class="actions">
+      <a class="btn btn--paper" href="/contact/">Talk to the dealer</a>
+      {telHref && <a href={telHref}>Call or text {site.phone}</a>}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,195 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Close from '../components/Close.astro';
+import { applications } from '../data/applications.mjs';
+import { site } from '../site.config.mjs';
+
+const notes = (await getCollection('notes')).sort(
+  (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
+);
+---
+
+<Base
+  title={`Independent AMSOIL Dealer in ${site.city}, ${site.regionName} | ${site.shortName}`}
+  description={site.description}
+>
+  <section class="sheet">
+    <img class="sheet-map" src="/topo.svg" alt="" width="2400" height="1200" fetchpriority="high" />
+    <div class="wrap">
+      <div class="title-block">
+        <h1>
+          <b>Run it hard.</b>
+          <b>Make it last.</b>
+          <span>Independent AMSOIL Dealer · {site.city}, {site.regionName}</span>
+        </h1>
+        <p>
+          {site.shortName} is an independent AMSOIL dealership in {site.city}, {site.regionName},
+          run by a heavy equipment operator, mechanic and racer. You get a straight answer about
+          what your machine needs from someone who has run one like it.
+        </p>
+        <div class="actions">
+          <a class="btn" href="/contact/">Talk to the dealer</a>
+          <a class="more" href="/field-notes/">Read the field notes</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap split">
+      <h2>The oil aisle can’t tell you what your machine needs.</h2>
+      <div class="prose">
+        <p>
+          You paid real money for the machine. Maybe it earns your living on a job site. Maybe it
+          carries your name at the track. Either way, it runs hotter, harder and longer than
+          anything the bottle on the store shelf was written for.
+        </p>
+        <p>
+          So you guess. You buy what you bought last time, or what the shop next door uses, and
+          hope it holds. Nobody at the big-box store can tell you whether it will, because nobody
+          there has run your machine.
+        </p>
+        <p>
+          A machine you depend on deserves better than a guess. That is the whole reason this
+          dealership exists.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--woodland">
+    <div class="wrap split">
+      <div>
+        <h2>I’ve run them, wrenched on them and raced them.</h2>
+        <p class="lead">
+          I became a dealer because the work I have done my whole life is the work these products
+          are made for. When you describe your machine and your problem, I have usually stood where
+          you are standing.
+        </p>
+        <p><a class="more" href="/about/">More about the dealer</a></p>
+      </div>
+      <dl class="record">
+        <div>
+          <dt>Heavy equipment</dt>
+          <dd>
+            More than a decade as an operator, from small powered equipment to large construction
+            machines.
+          </dd>
+        </div>
+        <div>
+          <dt>Mechanic</dt>
+          <dd>Hands-on repair across most types of machine, and every kind of lubricant in them.</dd>
+        </div>
+        <div>
+          <dt>Marine</dt>
+          <dd>Certified in marine engines.</dd>
+        </div>
+        <div>
+          <dt>Racing</dt>
+          <dd>Years in off-road, motocross and drag racing, plus street bikes.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Three kinds of work, one standard.</h2>
+      <p class="lead">
+        Different machines fail in different ways. Pick the one closest to yours.
+      </p>
+      <ul class="legend">
+        {
+          applications.map((app) => (
+            <li>
+              <a href={`/applications/${app.slug}/`}>
+                <h3>{app.name}</h3>
+                <p>
+                  {app.summary}
+                  <span class="machines">{app.machines}</span>
+                </p>
+                <span class="go">See {app.name.toLowerCase()}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <h2>How working with me goes.</h2>
+      <ol class="plan">
+        <li>
+          <h3>Tell me what you run</h3>
+          <p>
+            The machine, the hours, the conditions, and what has gone wrong before. A call, a text
+            or an email is enough.
+          </p>
+        </li>
+        <li>
+          <h3>Get a straight recommendation</h3>
+          <p>
+            I match the right product to the specification in your manual and to how you actually
+            use the machine, and I tell you why.
+          </p>
+        </li>
+        <li>
+          <h3>Run it with confidence</h3>
+          <p>
+            You order through AMSOIL, and you have a real person to call when you add a machine or
+            something changes.
+          </p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--woodland">
+    <div class="wrap split">
+      <h2>It costs more per quart. It can cost less per hour.</h2>
+      <div class="prose">
+        <p>
+          AMSOIL has a reputation for being expensive. In my own experience the higher price up
+          front mostly disappears once you account for longer service intervals: fewer oil changes,
+          fewer filters, and fewer hours with the machine parked.
+        </p>
+        <p>
+          The honest way to compare oils is cost per operating hour, not price per quart. I will
+          walk you through that math for your machine, and I will tell you when the cheaper oil is
+          the right call.
+        </p>
+        <p>
+          <a class="more" href="/field-notes/is-synthetic-oil-worth-the-cost/"
+            >How to work out oil cost per hour</a
+          >
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Field notes on oil.</h2>
+      <p class="lead">
+        Plain answers to the questions operators, riders and shop owners ask most.
+      </p>
+      <ul class="notes">
+        {
+          notes.map((note) => (
+            <li>
+              <h3>
+                <a href={`/field-notes/${note.id}/`}>{note.data.title}</a>
+              </h3>
+              <p>{note.data.answer}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <Close />
+</Base>

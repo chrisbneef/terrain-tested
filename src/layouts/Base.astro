@@ -1,0 +1,205 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/public-sans';
+import '../styles/global.css';
+import { site, nav, baseUrl, isDraft, missing, telHref, mailHref } from '../site.config.mjs';
+
+interface Props {
+  title: string;
+  description: string;
+  schema?: Record<string, unknown>[];
+  ogType?: 'website' | 'article';
+}
+
+const { title, description, schema = [], ogType = 'website' } = Astro.props;
+const path = Astro.url.pathname;
+const canonical = new URL(path, baseUrl).href;
+const businessId = `${baseUrl}/#business`;
+const dealerId = `${baseUrl}/#dealer`;
+
+const graph = [
+  {
+    '@type': 'LocalBusiness',
+    '@id': businessId,
+    name: site.name,
+    description: site.description,
+    url: `${baseUrl}/`,
+    ...(site.phone && { telephone: site.phone }),
+    ...(site.email && { email: site.email }),
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: site.city,
+      addressRegion: site.region,
+      addressCountry: site.country,
+    },
+    areaServed: { '@type': 'City', name: `${site.city}, ${site.regionName}` },
+    knowsAbout: [
+      'Synthetic motor oil',
+      'Powersports lubricants',
+      'Heavy equipment lubricants',
+      'Small engine oil',
+      'Marine engine oil',
+      'Oil analysis',
+    ],
+    ...(site.dealerName && { founder: { '@id': dealerId } }),
+    ...(site.profiles.length && { sameAs: site.profiles }),
+  },
+  ...(site.dealerName
+    ? [
+        {
+          '@type': 'Person',
+          '@id': dealerId,
+          name: site.dealerName,
+          jobTitle: 'Independent AMSOIL Dealer',
+          worksFor: { '@id': businessId },
+          url: `${baseUrl}/about/`,
+          knowsAbout: ['Heavy equipment operation', 'Engine repair', 'Marine engines', 'Motocross'],
+        },
+      ]
+    : []),
+  {
+    '@type': 'WebSite',
+    '@id': `${baseUrl}/#website`,
+    url: `${baseUrl}/`,
+    name: site.name,
+    publisher: { '@id': businessId },
+    inLanguage: 'en-US',
+  },
+  ...schema,
+];
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+const isCurrent = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {isDraft && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#f6f6ef" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    {
+      isDraft && (
+        <div class="draft" role="note">
+          Draft, hidden from search engines. Still needed in <code>src/site.config.mjs</code>:{' '}
+          {missing.join(', ')}.
+        </div>
+      )
+    }
+    <header class="masthead">
+      <div class="wrap">
+        <a class="brand" href="/" aria-label={`${site.name} home`}>
+          <svg viewBox="0 0 48 48" aria-hidden="true" fill="none" stroke="currentColor">
+            <rect x="1.5" y="1.5" width="45" height="45" stroke-width="3"></rect>
+            <path
+              d="M8 31c2-9 7-17 15-19 9-2 16 4 17 12 1 7-5 13-14 14-8 1-19 0-18-7Z"
+              stroke="#a9682f"
+              stroke-width="1.6"></path>
+            <path
+              d="M14 29c2-6 5-10 10-11 6-1 10 3 10 8s-4 8-9 8c-6 1-12 0-11-5Z"
+              stroke="#a9682f"
+              stroke-width="1.6"></path>
+            <path d="M24 20l5 8H19Z" fill="#b3232a" stroke="none"></path>
+          </svg>
+          <span class="brand-name">
+            {site.shortName}
+            <span class="brand-sub">Independent AMSOIL Dealer · {site.city}, {site.regionName}</span>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Main">
+          <ul>
+            {
+              nav.map((item) => (
+                <li>
+                  <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <footer class="collar-foot">
+      <div class="wrap">
+        <div class="cols">
+          <div>
+            <h2>{site.name}</h2>
+            <p style="margin-top:.6rem">
+              Independent AMSOIL Dealer{site.dealerName && `: ${site.dealerName}`}<br />
+              {site.city}, {site.regionName}
+            </p>
+            <svg class="scale" viewBox="0 0 208 26" aria-hidden="true">
+              <g fill="currentColor">
+                <rect x="1" y="6" width="50" height="6"></rect>
+                <rect x="103" y="6" width="50" height="6"></rect>
+              </g>
+              <rect x="1" y="6" width="204" height="6" fill="none" stroke="currentColor"></rect>
+              <g font-family="Arial,sans-serif" font-size="9" fill="currentColor">
+                <text x="0" y="24">0</text>
+                <text x="99" y="24">1</text>
+                <text x="170" y="24">2 MILES</text>
+              </g>
+            </svg>
+          </div>
+          <nav aria-label="Footer">
+            <ul>
+              <li><a href="/">Home</a></li>
+              {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+              <li><a href="/privacy/">Privacy</a></li>
+            </ul>
+          </nav>
+          <div>
+            <ul>
+              {telHref && <li>Call or text: <a href={telHref}>{site.phone}</a></li>}
+              {mailHref && <li>Email: <a href={mailHref}>{site.email}</a></li>}
+              {
+                site.amsoilStoreUrl && (
+                  <li>
+                    <a href={site.amsoilStoreUrl} rel="noopener">
+                      Pricing and ordering at the AMSOIL online store
+                    </a>
+                  </li>
+                )
+              }
+              {site.profiles.map((url) => <li><a href={url} rel="noopener me">{new URL(url).hostname.replace('www.', '')}</a></li>)}
+            </ul>
+            {site.amsoilBannerHtml && <div style="margin-top:1rem" set:html={site.amsoilBannerHtml} />}
+          </div>
+        </div>
+        <div class="legal">
+          <p>
+            {site.name} is an independently owned and operated AMSOIL dealership and is not AMSOIL
+            INC. AMSOIL and the AMSOIL logo are registered trademarks of AMSOIL INC.
+          </p>
+          <p>
+            This site does not list prices or take orders. Pricing and ordering are handled through
+            the AMSOIL online store, AMSOIL catalogs, or by contacting the dealer directly.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

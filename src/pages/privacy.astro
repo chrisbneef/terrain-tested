@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+import Strip from '../components/Strip.astro';
+import { site } from '../site.config.mjs';
+---
+
+<Base
+  title={`Privacy | ${site.shortName}`}
+  description={`How ${site.name} handles visitor information.`}
+>
+  <Strip title="Privacy" crumbs={[{ href: '/privacy/', label: 'Privacy' }]} />
+
+  <section class="section">
+    <div class="wrap prose">
+      <p><strong>Last updated: November 16, 2026.</strong></p>
+      <h2>What this site collects</h2>
+      <p>
+        This site has no forms, no accounts, no advertising trackers and no analytics scripts. It
+        does not set cookies. We do not collect personal information through the site itself.
+      </p>
+      <p>
+        The company that hosts the site may keep standard server logs, such as IP address, browser
+        type and the pages requested, for security and reliability.
+      </p>
+      <h2>When you contact the dealer</h2>
+      <p>
+        If you call, text or email, we receive whatever you choose to send, such as your name,
+        phone number, email address and details about your equipment. We use it only to answer you
+        and to help with AMSOIL products. We do not sell it or share it for marketing.
+      </p>
+      <h2>Links to AMSOIL</h2>
+      <p>
+        Links to the AMSOIL website take you to a site operated by AMSOIL INC., which has its own
+        privacy policy. Orders, accounts and payments are handled there, not here.
+      </p>
+      <h2>Questions</h2>
+      <p>
+        Contact the dealer using the details on the <a href="/contact/">contact page</a> to ask
+        what information we hold about you or to have it deleted.
+      </p>
+    </div>
+  </section>
+</Base>

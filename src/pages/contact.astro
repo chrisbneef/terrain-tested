@@ -1,0 +1,93 @@
+---
+import Base from '../layouts/Base.astro';
+import Strip from '../components/Strip.astro';
+import { site, baseUrl, telHref, mailHref } from '../site.config.mjs';
+
+const schema = [
+  {
+    '@type': 'ContactPage',
+    '@id': `${baseUrl}/contact/`,
+    url: `${baseUrl}/contact/`,
+    name: `Contact ${site.name}`,
+    about: { '@id': `${baseUrl}/#business` },
+  },
+];
+---
+
+<Base
+  title={`Contact your AMSOIL Dealer in ${site.city}, ${site.regionName} | ${site.shortName}`}
+  description={`Call, text or email ${site.name}, an independent AMSOIL Dealer in ${site.city}, ${site.regionName}, for product recommendations and help with ordering.`}
+  schema={schema}
+>
+  <Strip
+    title="Tell me what you run."
+    intro="The more I know about the machine and how you work it, the better the answer. No order form, no sales script."
+    crumbs={[{ href: '/contact/', label: 'Contact' }]}
+  />
+
+  <section class="section">
+    <div class="wrap split">
+      <dl class="contact-list">
+        <div>
+          <dt>Dealer</dt>
+          <dd>
+            {site.dealerName ?? <span class="pending">Name to be added</span>}
+          </dd>
+        </div>
+        <div>
+          <dt>Call or text</dt>
+          <dd>
+            {
+              telHref ? (
+                <a href={telHref}>{site.phone}</a>
+              ) : (
+                <span class="pending">Phone number to be added</span>
+              )
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>Email</dt>
+          <dd>
+            {
+              mailHref ? (
+                <a href={mailHref}>{site.email}</a>
+              ) : (
+                <span class="pending">Email address to be added</span>
+              )
+            }
+          </dd>
+        </div>
+        <div>
+          <dt>Location</dt>
+          <dd>{site.city}, {site.regionName}</dd>
+        </div>
+      </dl>
+
+      <div class="prose">
+        <h2 style="margin-top:0">What to have ready</h2>
+        <ul>
+          <li>The make, model and year of the machine, and the engine if you know it.</li>
+          <li>How you use it: hours per week, loads, racing, towing, weather.</li>
+          <li>What is in it now and how often you change it.</li>
+          <li>Anything that has gone wrong: heat, clutch slip, oil use, a failed part.</li>
+        </ul>
+        <h2>Prices and ordering</h2>
+        <p>
+          This site does not list prices or take orders. Only AMSOIL INC. publishes AMSOIL pricing.
+          I can point you to the AMSOIL online store or catalog, and explain the ways to buy so you
+          pick the one that fits how much you use.
+        </p>
+        {
+          site.amsoilStoreUrl && (
+            <p>
+              <a class="more" href={site.amsoilStoreUrl} rel="noopener">
+                Go to the AMSOIL online store
+              </a>
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,34 @@
+---
+// Interior page heading: a strip of the topo sheet with breadcrumbs.
+interface Props {
+  title: string;
+  intro?: string;
+  crumbs?: { href: string; label: string }[];
+}
+
+const { title, intro, crumbs = [] } = Astro.props;
+---
+
+<div class="strip">
+  <img class="strip-map" src="/topo.svg" alt="" width="2400" height="1200" />
+  <div class="wrap">
+    {
+      crumbs.length > 0 && (
+        <nav aria-label="Breadcrumb">
+          <ol class="crumbs">
+            <li>
+              <a href="/">Home</a>
+            </li>
+            {crumbs.map((crumb) => (
+              <li>
+                <a href={crumb.href}>{crumb.label}</a>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      )
+    }
+    <h1>{title}</h1>
+    {intro && <p>{intro}</p>}
+  </div>
+</div>
