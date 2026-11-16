@@ -4,6 +4,24 @@
 export const applications = [
   {
     slug: 'powersports',
+    plate: 'dirt-bike-10w40',
+    ad: {
+      image: 'ad-powersports',
+      alt: 'AMSOIL Independent Dealer advertisement: an adventure motorcycle on a wooded road beside a quart of AMSOIL synthetic motorcycle oil, with the words Engineered for Adventure.',
+    },
+    products: [
+      {
+        image: 'dirt-bike-10w40',
+        name: 'AMSOIL 10W-40 Synthetic Dirt Bike Oil',
+        detail:
+          'Formulated for consistent clutch feel. AMSOIL recommends it for four-stroke dirt bike engines and transmissions, and for two-stroke transmissions.',
+      },
+      {
+        image: 'dominator-2-stroke',
+        name: 'AMSOIL DOMINATOR® Synthetic 2-Stroke Racing Oil',
+        detail: 'A racing oil for two-strokes that get run hard on dirt, snow, water or track.',
+      },
+    ],
     name: 'Powersports',
     title: 'Synthetic oil for powersports: dirt bikes, ATVs, UTVs and street bikes',
     description:
@@ -52,6 +70,39 @@ export const applications = [
   },
   {
     slug: 'heavy-equipment',
+    plate: 'diesel-10w30',
+    ad: {
+      image: 'ad-heavy-equipment',
+      alt: 'AMSOIL Independent Dealer advertisement: a bulldozer and an excavator on a job site, with the words Maximum Protection, Minimum Downtime and Learn About Commercial Accounts.',
+    },
+    products: [
+      {
+        image: 'diesel-10w30',
+        name: 'AMSOIL 10W-30 Commercial-Grade Diesel Oil',
+        detail: 'Diesel engine oil from the commercial-grade line, sold in the larger sizes a fleet goes through.',
+      },
+      {
+        image: 'hydraulic-iso46',
+        name: 'AMSOIL Commercial-Grade ISO 46 Hydraulic Oil',
+        detail: 'ISO 46 hydraulic oil for equipment hydraulic systems.',
+      },
+      {
+        image: 'grease-off-road',
+        name: 'AMSOIL Synthetic Polymeric Off-Road Grease, NLGI #1',
+        detail:
+          'For pins and bushings under heavy load, mainly below 40°F. Fortified with 5% moly. The NLGI #2 version covers warmer work.',
+      },
+      {
+        image: 'grease-truck-chassis',
+        name: 'AMSOIL Synthetic Polymeric Truck, Chassis and Equipment Grease, NLGI #2',
+        detail: 'For severe-service bearings and chassis points, mainly above 40°F.',
+      },
+      {
+        image: 'grease-high-viscosity',
+        name: 'AMSOIL High-Viscosity Lithium-Complex Synthetic Grease',
+        detail: 'For slow, heavily loaded and shock-loaded joints working out in the weather.',
+      },
+    ],
     name: 'Heavy equipment',
     title: 'Synthetic lubricants for heavy equipment and construction fleets',
     description:
@@ -101,6 +152,24 @@ export const applications = [
   },
   {
     slug: 'small-engine-shops',
+    plate: 'saber-professional',
+    ad: {
+      image: 'ad-small-engine-shops',
+      alt: 'AMSOIL Independent Dealer advertisement: a landscaping crew mowing and trimming a lawn, with the words Maximum Protection, Minimum Downtime and Learn About Commercial Accounts.',
+    },
+    products: [
+      {
+        image: 'saber-professional',
+        name: 'AMSOIL SABER® Professional Synthetic 2-Stroke Oil',
+        detail:
+          'One oil for the trimmers, saws and blowers on the trailer. AMSOIL rates it for any mix ratio up to 100:1.',
+      },
+      {
+        image: 'hp-marine-2-stroke',
+        name: 'AMSOIL HP Marine® Synthetic 2-Stroke Oil',
+        detail: 'For two-stroke outboards, as an injection oil or as a premix.',
+      },
+    ],
     name: 'Small engine shops',
     title: 'Synthetic oil for small engines and the shops that service them',
     description:

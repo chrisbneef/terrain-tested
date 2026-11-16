@@ -501,11 +501,117 @@ a:hover {
   text-decoration: none;
 }
 
+.legend a {
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+}
+
+.legend a > * {
+  grid-column: 2;
+}
+
+.legend a > .plate {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  align-self: start;
+  --plate-h: 6rem;
+}
+
 @media (min-width: 56rem) {
   .legend a {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) auto;
-    align-items: baseline;
+    grid-template-columns: 5.5rem minmax(0, 4fr) minmax(0, 6fr) auto;
+    align-items: center;
   }
+
+  .legend a > * {
+    grid-column: auto;
+  }
+
+  .legend a > .plate {
+    grid-column: 1;
+    grid-row: auto;
+    --plate-h: 7rem;
+  }
+}
+
+/* Plates: AMSOIL package shots, shown unaltered on white like map insets --- */
+.plate {
+  --plate-h: 7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: var(--plate-h);
+  padding: 0.5rem;
+  background: #fff;
+  border: 1px solid var(--ink);
+}
+
+.plate img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(var(--plate-h) - 1rem - 2px);
+}
+
+.shelf {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 56rem) {
+  .shelf {
+    grid-template-columns: minmax(0, 24rem) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+.shelf-ad {
+  margin: 0;
+  max-width: 24rem;
+}
+
+.shelf-ad img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--ink);
+}
+
+.shelf-ad figcaption {
+  margin-top: 0.5rem;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+
+.products {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 2px solid var(--ink);
+}
+
+.products li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: center;
+  padding-block: 1.1rem;
+  border-bottom: 1px solid var(--ink);
+}
+
+.products .plate {
+  --plate-h: 8rem;
+}
+
+.products h3 {
+  font-size: 1.15rem;
+  font-stretch: 108%;
+}
+
+.products p {
+  margin: 0.3rem 0 0;
+  max-width: 56ch;
 }
 
 .legend h3 {

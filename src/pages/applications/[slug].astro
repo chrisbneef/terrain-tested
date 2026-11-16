@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Strip from '../../components/Strip.astro';
 import Close from '../../components/Close.astro';
@@ -14,6 +15,8 @@ const { app } = Astro.props;
 const notes = await getCollection('notes');
 const noteTitle = (id: string) => notes.find((note) => note.id === id)?.data.title;
 const url = `${baseUrl}/applications/${app.slug}/`;
+const files = import.meta.glob<{ default: ImageMetadata }>('../../assets/amsoil/*.jpg', { eager: true });
+const img = (name: string) => files[`../../assets/amsoil/${name}.jpg`].default;
 
 const schema = [
   {
@@ -86,6 +89,39 @@ const schema = [
             </div>
           ))
         }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>What I point people to for {app.name.toLowerCase()}</h2>
+      <p class="lead">
+        A starting point, not a prescription. The right product depends on the specification in
+        your manual and how you use the machine, so ask me before you buy.
+      </p>
+      <div class="shelf">
+        <figure class="shelf-ad">
+          <a href="/contact/">
+            <Image src={img(app.ad.image)} alt={app.ad.alt} widths={[420, 840]} sizes="(min-width: 56rem) 24rem, 90vw" />
+          </a>
+          <figcaption>Official AMSOIL artwork for independent dealers.</figcaption>
+        </figure>
+        <ul class="products">
+          {
+            app.products.map((product) => (
+              <li>
+                <span class="plate">
+                  <Image src={img(product.image)} alt={`${product.name} package`} height={320} />
+                </span>
+                <div>
+                  <h3>{product.name}</h3>
+                  <p>{product.detail}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </div>
   </section>

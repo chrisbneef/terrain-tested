@@ -1,9 +1,13 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Close from '../components/Close.astro';
 import { applications } from '../data/applications.mjs';
 import { site } from '../site.config.mjs';
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/amsoil/*.jpg', { eager: true });
+const img = (name: string) => files[`../assets/amsoil/${name}.jpg`].default;
 
 const notes = (await getCollection('notes')).sort(
   (a, b) => b.data.published.valueOf() - a.data.published.valueOf(),
@@ -104,6 +108,9 @@ const notes = (await getCollection('notes')).sort(
           applications.map((app) => (
             <li>
               <a href={`/applications/${app.slug}/`}>
+                <span class="plate">
+                  <Image src={img(app.plate)} alt="" height={240} />
+                </span>
                 <h3>{app.name}</h3>
                 <p>
                   {app.summary}
